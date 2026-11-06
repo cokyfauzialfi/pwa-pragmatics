@@ -180,6 +180,7 @@ function renderBar(u){
   const tabs=[{t:'Overview'}].concat(u.stages.map(s=>({t:s.tag==='Table 1'?'Table 1':s.tag.replace('Stage ','')+' · '+s.title})),(u.references||[]).length?[{t:'References'}]:[]);
   const seen=seenOf(u);
   tabs.forEach((x,i)=>{const b=el('button',seen.includes(i-1)&&i-1!==stageIdx?'seen':null,esc(x.t));if(b.className==='seen')b.title='Opened';b.setAttribute('role','tab');b.setAttribute('aria-selected',String(i-1===stageIdx));b.onclick=()=>{stageIdx=i-1;renderBar(u);renderStage(u,stageIdx);if(APP.renderRibbon)APP.renderRibbon()};bar.appendChild(b)});
+  const cur=bar.querySelector('[aria-selected=true]');if(cur&&bar.scrollWidth>bar.clientWidth)bar.scrollLeft=Math.max(0,cur.offsetLeft-(bar.clientWidth-cur.offsetWidth)/2);
 }
 function stageInfo(){return view()==='unit'&&unit?{idx:stageIdx,max:stageMax(unit)}:null}
 function stepStage(d){if(view()!=='unit'||!unit)return;const n=Math.max(-1,Math.min(stageMax(unit),stageIdx+d));if(n===stageIdx)return;stageIdx=n;renderBar(unit);renderStage(unit,n);if(APP.renderRibbon)APP.renderRibbon()}

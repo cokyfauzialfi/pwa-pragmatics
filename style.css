@@ -350,7 +350,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   .rl{width:100%;margin:2px 0}
   .seg{flex-wrap:nowrap;max-width:100%}
   /* pages */
-  #stagebar{padding:5px 8px}
+  #stagebar{padding:5px 8px;justify-content:flex-start}
   #page{padding:16px 16px 72px}
   h1{font-size:25px}.lead{font-size:16px}
   .stage-h{flex-wrap:wrap;gap:0 10px}.stage-h h2{font-size:21px}
