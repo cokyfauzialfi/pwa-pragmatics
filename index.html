@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b4f4a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>Pragmatics for Adab-Based Digital Communication</title>
+<link rel="stylesheet" href="fonts.css"><link rel="stylesheet" href="style.css">
+</head><body>
+<div id="app">
+  <header id="side" class="rib" data-rstyle="match">
+    <div class="rt">
+      <div class="brand"><img class="brand-logo" src="assets/logo.svg" alt="" width="26" height="26"><div class="brand-t">Pragmatics for Adab-Based<br>Digital Communication</div><div class="brand-s" id="brandS">Kurikulum Cinta module</div></div>
+      <div class="rtabs" id="rtabs" role="tablist" aria-label="Menu"></div>
+      <div class="rcur" id="rcur" aria-live="polite"></div>
+      <div class="side-foot">
+        <button id="lockbtn" class="ghost lockbtn" hidden title="Lock instructor content (Ctrl+Shift+L)">Instructor · Lock</button>
+        <div class="profwrap">
+          <button id="profile" class="ghost prof" aria-haspopup="true" aria-expanded="false" title="Your name and save status"><span class="prof-av" id="profav" aria-hidden="true">?</span><span id="profname">Your name</span></button>
+          <div id="profpop" class="profpop" hidden role="dialog" aria-label="Your name">
+            <label for="who">Your name (optional, printed on your PDF)</label>
+            <input id="who" class="f who" type="text" placeholder="Your name" autocomplete="off">
+            <div id="saved" aria-live="polite"></div>
+          </div>
+        </div>
+        <button id="export" class="ghost">Export my work (PDF)</button>
+      </div>
+    </div>
+    <div class="rbody" id="rbody" role="tabpanel" hidden></div>
+  </header>
+  <main id="main"><div id="stagebar" role="tablist"></div><article id="page"></article></main>
+</div>
+<div id="lockdlg" hidden role="dialog" aria-modal="true" aria-labelledby="ldt"><form id="lockform"><h2 id="ldt">Instructor access</h2>
+  <p>Enter the instructor passphrase.</p><input id="lockpass" type="password" autocomplete="off" spellcheck="false" aria-label="Instructor passphrase">
+  <label id="keeprow" class="chk" hidden><input type="checkbox" id="keep"><span>Keep unlocked on this computer</span></label>
+  <div id="lockerr" role="alert"></div><div class="lbtns"><button type="button" id="lockcancel" class="ghost">Cancel</button><button type="submit" class="ghost pri">Unlock</button></div></form></div>
+<section id="report" aria-hidden="true"></section>
+<script src="content.js"></script><script src="instructor.enc.js"></script><script src="app.js"></script><script src="pillars.js"></script><script src="x-framework.js"></script><script src="x-info.js"></script><script src="x-journal.js"></script><script src="x-practice.js"></script><script src="x-snippets.js"></script><script src="x-welcome.js"></script><script src="x-ribbon.js"></script><script src="boot.js"></script><script src="pwa.js"></script>
+</body></html>
