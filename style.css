@@ -321,3 +321,71 @@ figure.fig img[src$="logo.svg"]{width:96px;height:96px;border-radius:22px;displa
 
 .gt{border-bottom:2px dotted var(--teal);background:linear-gradient(transparent 62%,var(--teal-tint) 62%)}
 @media print{.stage-nav,.stage-hint,.wl-continue{display:none!important}}
+
+/* ===== v0.9.2: phones and small tablets ===== */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+#app{height:100vh;height:100dvh}
+#main{overscroll-behavior-y:contain}
+.ex-s{display:none}
+@media (pointer:coarse){
+  .rbtn{min-height:42px}.runit{width:36px;height:36px;font-size:13.5px}.seg button{padding:10px 15px}.rchk{padding:10px}
+  .ghost{min-height:38px}.chip{min-height:36px}#stagebar button{min-height:40px}
+}
+@media (max-width:700px){
+  /* header: row 1 = logo, where you are, name and export; row 2 = the menu tabs (they slide sideways) */
+  .rt{flex-wrap:wrap;height:auto;padding:6px 10px 0;gap:2px 8px}
+  .brand{margin:0;order:0}
+  .rcur{display:block;order:1;flex:1 1 0;text-align:left;padding:0 2px;font:600 13px var(--sans);color:var(--ink)}
+  .side-foot{order:2;gap:6px}
+  .rtabs{order:3;flex:0 0 100%;height:42px;margin:3px -10px 0;padding:0 10px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;align-self:auto}
+  .rtabs::-webkit-scrollbar{display:none}
+  .rtab{flex:none;height:42px;padding:0 15px;font-size:14px}.rtab[aria-selected=true]{height:43px}
+  .ex-l{display:none}.ex-s{display:inline}
+  #export{padding:8px 11px;white-space:nowrap}
+  .profpop{position:fixed;left:10px;right:10px;top:54px;width:auto}
+  .lockbtn{padding:7px 8px;font-size:11.5px}
+  /* the menu panel: groups stack and wrap instead of running off the screen */
+  .rbody{flex-direction:column;align-items:stretch;gap:2px;padding:6px 10px;max-height:min(68vh,460px);overflow-x:hidden;overflow-y:auto}
+  .rg{flex-wrap:wrap;border-right:0;border-bottom:1px solid var(--rule);padding:4px 0;gap:4px}.rg:last-child{border-bottom:0}
+  .rl{width:100%;margin:2px 0}
+  .seg{flex-wrap:nowrap;max-width:100%}
+  /* pages */
+  #stagebar{padding:5px 8px}
+  #page{padding:16px 16px 72px}
+  h1{font-size:25px}.lead{font-size:16px}
+  .stage-h{flex-wrap:wrap;gap:0 10px}.stage-h h2{font-size:21px}
+  .outcomes li{grid-template-columns:1fr;gap:2px}
+  .anchor .ar{font-size:24px}
+  .bub{max-width:92%}
+  .box{padding:11px 13px}
+  .tip-r{grid-template-columns:1fr;gap:2px}
+  textarea.f,input.f,select.f{font-size:16px}
+  .termpop{max-width:calc(100vw - 16px);width:auto}
+  /* tables become cards: one card per row, each cell labelled with its column */
+  table.t:not(.strip),table.t:not(.strip) tbody,table.t:not(.strip) tr,table.t:not(.strip) td{display:block;width:100%}
+  table.t:not(.strip) thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  table.t:not(.strip) tr{border:1px solid var(--rule);border-radius:10px;margin:0 0 12px;overflow:hidden;background:var(--paper)}
+  table.t:not(.strip) td,table.t:not(.strip) td.key{border:0;border-bottom:1px solid var(--rule);padding:8px 12px}
+  table.t:not(.strip) td:last-child{border-bottom:0}
+  table.t:not(.strip) td::before{content:attr(data-label);display:block;font:700 10.5px var(--sans);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+  table.t:not(.strip) td[data-label=""]::before{display:none}
+  table.fw td:first-child{white-space:normal}
+  /* previous / next: full width, easy to hit */
+  .stage-nav{flex-direction:column-reverse;gap:10px}
+  .stage-nav .sn{max-width:100%;width:100%}.stage-nav .sn.next{margin-left:0;text-align:left;align-items:flex-start}
+  .stage-nav>span{display:none}
+  /* help topics: a row of chips you slide sideways, so the article is on screen straight away */
+  .help-list{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+  .help-list button{flex:none;white-space:nowrap;border:1px solid var(--rule);border-radius:99px;padding:8px 14px}
+  .help-list button[aria-current=true]{border-color:var(--teal)}
+}
+@media (max-width:480px){
+  .jmeta{grid-template-columns:1fr}
+  .wl-continue .pri{width:100%}
+  .rtab{padding:0 13px}
+}
+@media (max-height:480px) and (orientation:landscape){
+  .rt{padding-top:3px}.rtab,.rtab[aria-selected=true]{height:36px}.rtabs{height:36px}
+  #page{padding-top:10px}
+}
+#page{overflow-wrap:break-word}.ref,p.ref{overflow-wrap:anywhere}

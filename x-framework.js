@@ -59,7 +59,7 @@ function render(root,opts){
         const on=sel&&sel.k===kind&&sel.n===n;b.setAttribute('aria-pressed',String(!!on));
         b.onclick=()=>{sel=on?null:{k:kind,n};draw()};tp.appendChild(b)});
       const nr=noteRest(r);if(nr)tp.appendChild(el('span','q-gl',md(nr)));
-      tr.appendChild(tp);tb.appendChild(tr)});
+      tr.appendChild(tp);[...tr.children].forEach((td,i)=>td.dataset.label=F.columns[i]||'');tb.appendChild(tr)});
     t.appendChild(tb);tw.appendChild(t);wrap.appendChild(tw);
     wrap.appendChild(panel());
   }

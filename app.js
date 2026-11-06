@@ -28,7 +28,20 @@ function stamp(){const d=new Date();$('#saved').textContent='Saved '+d.toTimeStr
 // ---- where the student is, and which stages they have opened (kept with their other work) ----
 const NAVK='nav/last',visK=u=>'nav/seen/'+u.id;
 const seenOf=u=>{const v=store.getJSON(visK(u),[]);return Array.isArray(v)?v:[]};
+// ---- browser Back (web version and installed web app): every page you open is one step in the history ----
+let histOn=false,restoring=false;
+function pushHist(s){
+  if(window.appStore||restoring)return;
+  const key=JSON.stringify(s);if(history.state&&history.state.k===key)return;
+  try{histOn?history.pushState({k:key,s},''):history.replaceState({k:key,s},'');histOn=true}catch(e){}
+}
+function onPop(e){
+  const s=e.state&&e.state.s;if(!s||window.appStore)return;
+  restoring=true;
+  try{if(s.v==='unit'){const u=C.units.find(x=>x.number===s.n);if(u)openUnit(u,s.i)}else openView(s.v)}finally{restoring=false}
+}
 function noteVisit(u,i){
+  pushHist({v:'unit',n:u.number,i});
   const v=seenOf(u);if(!v.includes(i)){v.push(i);store.setJSON(visK(u),v)}
   const last=store.getJSON(NAVK,null);if(!last||last.n!==u.number||last.s!==i)store.setJSON(NAVK,{n:u.number,s:i});
 }
@@ -102,6 +115,7 @@ function renderBlock(b,u){
         r.cells.forEach((c,ci)=>{const td=el('td',(b.keyCol&&ci===0)||(b.keyCols&&b.keyCols.includes(ci))?'key':'');
           if(c&&c.input)td.appendChild(field(sectionKey(u.id,b.id,ri+'.'+ci),b.tall));
           else td.innerHTML=md(String(c).replace(/\n/g,'\n'));
+          td.dataset.label=String(b.header[ci]||'').replace(/[*_`]/g,'');
           tr.appendChild(td)});tb.appendChild(tr)});
       t.appendChild(tb);wrap.appendChild(t);return wrap}
     case 'responses':{const w=el('div','resp');
@@ -170,7 +184,7 @@ function renderBar(u){
 function stageInfo(){return view()==='unit'&&unit?{idx:stageIdx,max:stageMax(unit)}:null}
 function stepStage(d){if(view()!=='unit'||!unit)return;const n=Math.max(-1,Math.min(stageMax(unit),stageIdx+d));if(n===stageIdx)return;stageIdx=n;renderBar(unit);renderStage(unit,n);if(APP.renderRibbon)APP.renderRibbon()}
 function openUnit(u,stage){$('#page').classList.remove('wide');APP.state.view='unit';unit=u;APP.state.unitNumber=u.number;stageIdx=stage==null?-1:stage;$('#stagebar').hidden=false;renderUnits();renderBar(u);renderStage(u,stageIdx)}
-function openView(name){const v=APP.VIEWS[name];if(!v)return;$('#page').classList.add('wide');APP.state.view=name;$('#stagebar').hidden=true;renderUnits();const page=$('#page');page.innerHTML='';v.render(page);$('#main').scrollTop=0}
+function openView(name){const v=APP.VIEWS[name];if(!v)return;$('#page').classList.add('wide');APP.state.view=name;$('#stagebar').hidden=true;renderUnits();const page=$('#page');page.innerHTML='';v.render(page);$('#main').scrollTop=0;pushHist({v:name})}
 function renderUnits(){if(APP.renderRibbon)APP.renderRibbon()}
 // ---- PDF export: student's own work for the open unit ----
 function buildReport(u){
@@ -215,6 +229,7 @@ Object.assign(APP,{unitProgress,lastPlace,stageLabel,stageInfo,stepStage,phraseO
 APP.start=async function init(){
   await store.load();
   if(APP.onLoaded)APP.onLoaded();
+  window.addEventListener('popstate',onPop);
   document.addEventListener('keydown',e=>{if(e.ctrlKey&&e.shiftKey&&(e.key==='L'||e.key==='l')){e.preventDefault();openLock()}
     if(e.key==='Escape'){$('#lockdlg').hidden=true;$('#profpop').hidden=true}});
   let taps=0,tt;$('.brand').addEventListener('click',()=>{taps++;clearTimeout(tt);tt=setTimeout(()=>taps=0,1500);if(taps>=5){taps=0;openLock()}});
