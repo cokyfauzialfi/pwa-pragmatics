@@ -389,3 +389,9 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   #page{padding-top:10px}
 }
 #page{overflow-wrap:break-word}.ref,p.ref{overflow-wrap:anywhere}
+/* v0.9.2: screen-width choice on Start here (web only) */
+.wl-width{display:grid;gap:8px;justify-items:start;border:1px solid var(--rule);border-radius:10px;padding:14px 18px;margin:12px 0 6px;font-family:var(--sans);background:var(--paper)}
+.wl-width .wl-ck{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:var(--teal)}
+.wl-width .seg button{padding:9px 16px;font-size:14px}
+.wl-wn{margin:0;font:13.5px/1.5 var(--sans);color:var(--muted,var(--ink))}
+@media (max-width:480px){.wl-width{padding:14px}.wl-width .seg{width:100%}.wl-width .seg button{flex:1;text-align:center}}

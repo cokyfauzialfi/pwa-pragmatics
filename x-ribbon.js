@@ -21,7 +21,19 @@ const get=(k,d)=>store.get('settings/'+k)||d;
 const pinned=()=>get('ribbonPinned','0')==='1';
 const close=()=>{if(open&&!pinned()){open=false;render()}};
 
+// Screen width on phones: lays the app out at 360, 390 or 430 px and scales it to fit the screen. Ignored on computers and in the desktop app.
+const LW=[['auto','Auto'],['360','360'],['390','390'],['430','430']];
+const isPhone=()=>Math.min(screen.width||9999,screen.height||9999)<=600;
+function applyWidth(){
+  if(window.appStore)return;
+  const m=document.querySelector('meta[name=viewport]');if(!m)return;
+  const w=get('layoutW','auto'),portrait=!window.matchMedia||matchMedia('(orientation:portrait)').matches;
+  m.setAttribute('content',(w!=='auto'&&isPhone()&&portrait)?`width=${w}`:'width=device-width,initial-scale=1');
+}
+if(window.matchMedia){const mq=matchMedia('(orientation:portrait)');(mq.addEventListener?mq.addEventListener('change',()=>applyWidth()):mq.addListener&&mq.addListener(()=>applyWidth()))}
+A.layoutWidth={opts:LW,get:()=>get('layoutW','auto'),set:v=>{store.set('settings/layoutW',v);applyWidth()},isPhone,deviceWidth:()=>screen.width};
 function applySettings(){
+  applyWidth();
   const t=get('theme','auto'),r=get('ribbonStyle','match'),root=document.documentElement;
   if(t==='auto')root.removeAttribute('data-theme');else root.setAttribute('data-theme',t);
   side.dataset.rstyle=r;side.classList.toggle('pinned',pinned());
@@ -72,6 +84,7 @@ const PANELS={
   view(){
     return [seg('App theme',[['auto',window.appStore?'Follow Windows':'Follow my device'],['light','Light'],['dark','Dark']],get('theme','auto'),v=>store.set('settings/theme',v)),
       seg('Ribbon',[['match','Match the app'],['light','Light'],['dark','Dark']],get('ribbonStyle','match'),v=>store.set('settings/ribbonStyle',v)),
+      window.appStore?null:seg('Screen width (phones)',LW,get('layoutW','auto'),v=>store.set('settings/layoutW',v)),
       seg('Text size',[['normal','Normal'],['large','Large'],['xl','Larger']],get('textSize','normal'),v=>store.set('settings/textSize',v)),
       group(check('Keep the ribbon open',pinned(),on=>{store.set('settings/ribbonPinned',on?'1':'0');open=on||open;render()}))];
   },

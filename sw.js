@@ -1,7 +1,7 @@
 // Service worker: keeps the whole app on the device so it opens offline after the first visit.
 // The version and the file list below are filled in by scripts/build-web.js (the version changes whenever any file
 // changes, so browsers pick up an update by themselves).
-const CACHE = 'pragmatics-adab-0.9.2-b8f37b76';
+const CACHE = 'pragmatics-adab-0.9.3-e7f76021';
 const FILES = [
  "./",
  "./app.js",

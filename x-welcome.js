@@ -33,6 +33,19 @@ A.VIEWS.start={group:'info',title:'Start here',icon:'⌂',render(page){
   }
   page.appendChild(box);
 
+  // screen width (web only)
+  if(!desktop&&A.layoutWidth){
+    const LW=A.layoutWidth,sec=el('section','wl-width');
+    sec.appendChild(el('div','wl-ck','Screen width'));
+    const row=el('div','seg wl-seg');row.setAttribute('role','group');row.setAttribute('aria-label','Screen width in pixels');
+    const cur=LW.get();
+    LW.opts.forEach(([v,t])=>{const b=el('button',null,esc(v==='auto'?'Auto':t+' px'));b.type='button';b.setAttribute('aria-pressed',String(cur===v));
+      b.onclick=()=>{LW.set(v);row.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');note.textContent=msg(v)};row.appendChild(b)});
+    const msg=v=>!LW.isPhone()?'This choice changes how the app fits a phone. On a computer screen it has no effect.':v==='auto'?`Auto uses your phone's own width (${LW.deviceWidth()} px). If the page feels cramped or too small, try 360, 390 or 430 px.`:`The app is laid out at ${v} px wide and scaled to fit your screen. A smaller number gives bigger text and buttons; a larger number fits more on screen.`;
+    const note=el('p','wl-wn',esc(msg(cur)));
+    sec.appendChild(row);sec.appendChild(note);page.appendChild(sec);
+  }
+
   // how it works
   page.appendChild(el('h3',null,'How it works'));
   const ol=el('ol','wl-steps');
