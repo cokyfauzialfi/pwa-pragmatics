@@ -33,6 +33,29 @@ A.VIEWS.start={group:'info',title:'Start here',icon:'⌂',render(page){
   }
   page.appendChild(box);
 
+  // install on the phone (web build only; pwa.js provides PWAInstall)
+  const PI=window.PWAInstall;
+  if(!desktop&&PI&&!PI.standalone()){
+    const ib=el('section','wl-install');page.appendChild(ib);
+    const paint=()=>{
+      ib.innerHTML='';
+      if(PI.installed){ib.appendChild(el('div','wl-ck','Installed'));ib.appendChild(el('p','wl-wn','The app is installed. Look for <b>Pragmatics Adab</b> on your home screen or in your app list.'));return}
+      if(!PI.event&&!PI.ios()&&!PI.touch()){ib.hidden=true;return}
+      ib.hidden=false;
+      ib.appendChild(el('div','wl-ck','Install the app'));
+      ib.appendChild(el('p','wl-wn','Put the app on your phone so it opens like any other app, with its own icon, and keeps working without internet.'));
+      if(PI.event){
+        const b=el('button','ghost pri','Install on this phone');b.type='button';b.onclick=()=>{b.disabled=true;PI.prompt()};ib.appendChild(b);
+      }else if(PI.ios()){
+        ib.appendChild(el('ol','wl-ih','<li>Open this page in <b>Safari</b>.</li><li>Tap the <b>Share</b> button (a square with an arrow).</li><li>Choose <b>Add to Home Screen</b>, then <b>Add</b>.</li>'));
+      }else{
+        ib.appendChild(el('ol','wl-ih','<li>Open this page in <b>Chrome</b>.</li><li>Tap the menu <b>⋮</b> (three dots) at the top right.</li><li>Choose <b>Install app</b> or <b>Add to Home screen</b>, then <b>Install</b>.</li>'));
+        ib.appendChild(el('p','wl-wn','No such choice in the menu? Wait a few seconds after the page opens and look again, or open the page in Chrome.'));
+      }
+    };
+    paint();PI.onchange(()=>{if(ib.isConnected)paint()});
+  }
+
   // screen width (web only)
   if(!desktop&&A.layoutWidth){
     const LW=A.layoutWidth,sec=el('section','wl-width');

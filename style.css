@@ -395,3 +395,12 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .wl-width .seg button{padding:9px 16px;font-size:14px}
 .wl-wn{margin:0;font:13.5px/1.5 var(--sans);color:var(--muted,var(--ink))}
 @media (max-width:480px){.wl-width{padding:14px}.wl-width .seg{width:100%}.wl-width .seg button{flex:1;text-align:center}}
+/* v0.9.4: install card on Start here */
+.wl-install{display:grid;gap:8px;justify-items:start;border:1px solid var(--rule);border-left:4px solid var(--teal);border-radius:10px;padding:14px 18px;margin:12px 0 6px;font-family:var(--sans);background:var(--paper)}
+.wl-install[hidden]{display:none}
+.wl-install .wl-ck{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:var(--teal)}
+.wl-install .pri{background:var(--teal);color:var(--paper);border-color:var(--teal);font-size:14.5px;padding:10px 20px}
+.wl-install .pri:disabled{opacity:.6}
+.wl-ih{margin:0;padding-left:1.3em;font:14px/1.6 var(--sans)}
+@media (max-width:480px){.wl-install{padding:14px}.wl-install .pri{width:100%}}
+@media print{.wl-install,.wl-width{display:none!important}}
